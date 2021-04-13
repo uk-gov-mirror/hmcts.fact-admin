@@ -1,0 +1,106 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{{ govukDetails({
+  summaryText: "Help with phone numbers",
+  html: "Government standards on displaying phone numbers is available
+  <a href='https://www.gov.uk/guidance/style-guide/a-to-z-of-gov-uk-style#telephone-numbers'
+  target='_blank' rel='noopener noreferrer'>here</a>"})
+}}
+
+{% for phoneNumber in phoneNumbers %}
+
+  {{ govukSelect({
+    id: "contact-description-{{loop.index}}",
+    name: "contactDescription",
+    label: {
+      text: "Description"
+    },
+    items: phoneNumber.types
+  }) }}
+
+  {{ govukInput({
+    label: {
+      text: "Number"
+    },
+    classes: "govuk-input--width-20",
+    id: "number-{{loop.index}}",
+    name: "contactNumber",
+    value: phoneNumber.contact.number
+  }) }}
+
+  {{ govukInput({
+    label: {
+      text: "Explanation"
+    },
+    id: "explanation-{{loop.index}}",
+    name: "contactExplanation",
+    value: phoneNumber.contact.explanation
+  }) }}
+
+  {{ govukInput({
+    label: {
+      text: "Explanation (Welsh)"
+    },
+    id: "explanation_cy-{{loop.index}}",
+    name: "contactExplanation_cy",
+    value: phoneNumber.contact.explanation_cy
+  }) }}
+
+  {{ govukButton({
+    text: "Delete",
+    classes: "govuk-button--secondary deleteContact",
+    attributes: { name: 'deleteContact', value: loop.index }
+  }) }}
+
+  <hr/>
+  <br/>
+
+{% endfor %}
+
+<h3 class="govuk-heading-s">Add New Phone Number</h3>
+
+{{ govukSelect({
+  id: "contact-description",
+  name: "contactDescription",
+  label: {
+    text: "Description"
+  },
+  items: standardContactTypes
+}) }}
+
+{{ govukInput({
+  label: {
+    text: "Number"
+  },
+  classes: "govuk-input--width-20",
+  id: "number",
+  name: "contactNumber",
+  hint: {
+      html: "Government standards on displaying phone numbers is available
+      <a href='https://www.gov.uk/guidance/style-guide/a-to-z-of-gov-uk-style#telephone-numbers'
+        target='_blank' rel='noopener noreferrer'>here</a>"
+    }
+}) }}
+
+{{ govukInput({
+  label: {
+    text: "Explanation"
+  },
+  id: "explanation",
+  name: "contactExplanation"
+}) }}
+
+{{ govukInput({
+  label: {
+    text: "Explanation (Welsh)"
+  },
+  id: "explanation_cy",
+  name: "contactExplanation_cy"
+}) }}
+
+{{ govukButton({
+  text: "Add",
+  classes: "govuk-button--secondary deleteContact"
+}) }}
